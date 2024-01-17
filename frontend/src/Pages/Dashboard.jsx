@@ -9,28 +9,31 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
+import Airtime from '../Components/Airtime';
+import Data from '../Components/Data';
 
 const Dashboard = () => {
   return (
-    <Container maxW="xl" centerContent>
+    <Container maxW="3xl" centerContent>
       <Box
         w={"100%"}
         bg={"white"}
         p={4}
         borderRadius={"lg"}
         borderWidth={"1px"}
+        mt={4}
       >
         <Tabs variant="soft-rounded" colorScheme="orange">
           <TabList>
-            <Tab w={"50%"}>Login</Tab>
-            <Tab w={"50%"}>Sign Up</Tab>
+            <Tab w={"50%"}>Airtime</Tab>
+            <Tab w={"50%"}>Data</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              Login
+              <Airtime/>
             </TabPanel>
             <TabPanel>
-              Rgister
+              <Data/>
             </TabPanel>
           </TabPanels>
         </Tabs>
