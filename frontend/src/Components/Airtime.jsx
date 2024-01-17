@@ -1,8 +1,57 @@
 import React, { useState } from "react";
-import { Box, Image, Text } from "@chakra-ui/react";
+import {ArrowForwardIcon, CheckIcon, PhoneIcon} from '@chakra-ui/icons';
+import { Box, Button, Container, Image, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from "@chakra-ui/react";
+import axios from "axios";
 
 const Airtime = () => {
-  const [serviceID, setserviceID] = useState("");
+  // const [serviceID, setserviceID] = useState("");
+  const [showinp, setshowinp] = useState(false)
+  let amount;
+  let serviceID;
+  function setmtn() {
+    // setserviceID("mtn");
+    serviceID = "mtn";
+    console.log(serviceID);
+  }
+
+  function generateRequestId() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed in JavaScript
+    const day = String(date.getDate()).padStart(2, "0");
+    const hour = String(date.getHours()).padStart(2, "0");
+    const minute = String(date.getMinutes()).padStart(2, "0");
+
+    const requestId = year + month + day + hour + minute;
+
+    // Generate a random alphanumeric string
+    const randomString = Math.random().toString(36).substring(2, 15);
+
+    return requestId + randomString;
+    
+  };
+
+  const handleAmount = (e) => {
+    amount = e.target.value
+    console.log(amount);
+  };
+
+  const pay = () => {
+    const requestId = generateRequestId();
+    console.log(requestId);
+    const data = {
+      requestId,
+      serviceID,
+      amount,
+      phoneNumber,
+    };
+    console.log(data);
+  }
+    
+  let phoneNumber = localStorage.getItem("phoneNumber");
+
+
+
   const mtn =
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAAh1BMVEX/ywD/ywH/zwD/zQAAAAYAAAD/0wAAAAn/0QD2xgoAAAO6mg7ovwz/1QAAAA36ywrwww1xXgyoiwnftQjXsAx1Yw49Ng0ABwikiBBmVRFBOAmPdgyxkAteTw+3lxKIcRJ9ag8UEworJQ0eHA7RqhAiIRCegxTMqxdMQhbDoAtpWAwtKQtRRgrE099zAAACV0lEQVRIie1V7XabMAw1krAwHzXBJmGFBtIkdGny/s83OyVtSEi7/dl2TirOAQtzdWXryohAvF0iGF3TwzP39PB2Nvnh3pr5Iu43450w/oNUnZ3HPXNvzPxHa8TBfr8cQgBICTpPjUlz7ceAXzMiSLRVOV8wHY15PqssSMBPGTHSyQ9mih9ndVU0TVHVs0eimJ+WWqK4xSiivGVadEkKWeQMANw9g3TXrYi6XOI0I0Z1zKV1ABTnS3bpR9J2zC3CBGMA6fMxqhhv8mAgVUvrFK4ZwfCDPSbj9sG5iODN3V0ungmlXZGBy81F/bBSx7dquYkELjdmmSTJMl++ANhG+w9Bb1nhmFFEnYvmh6hizrM+LPvQmyG2WU/KV1JAyjN5wQg8y8QbkMKnnMMyN3X4YjWFWzkAAyE70uOqoAmXUTAA1/GWXeioCHMIaB53xQkIu9hicAmEE7Cah8XzTIIDoua+pZ/xAMRdvLkAIpfZOzCt5OodWGf7cGAMZHuZqohKSofNod7Jml8lVGHqgG1meGDEnK42BxWvh3IUFlw5doC2UBgUG4heCuU+DEDvOcdrAdDKet0MAoDAadC/R99nRwGYNdsrAbhkzZpaNS05h5e6pYWJpkQO2BK3Ro5FHryJ3Li+6TROtxXKtGPa1rtcSnnsKt9WUua7+pmoTG+1lV9HpJoDx7Q4dH3RJElT9N1hQTEdGiXHBRyvxEOl3vSve3dyxN6I96/9Rks4le+Tw8ovSYJKjbUmVS7SRWdPM360vWvIPzser9zpmZP/1/8dd/FH/ma8U8ZfAxAjCXQUrroAAAAASUVORK5CYII=";
   const airtel =
@@ -17,20 +66,54 @@ const Airtime = () => {
       <Text fontSize={"2xl"} className="text-center">
         Choose your Network
       </Text>
-      <Box w={"100%"} bg={"tomato"} p={"1"} className="flex justify-between">
-        <button className="bg-blue-600">
-          <Image boxSize={"100px"} src={mtn} alt="mtn" />
-        </button>
-        <button className="bg-blue-600">
-          <Image boxSize={"100px"} src={glo} alt="mtn" />
-        </button>
-        <button className="bg-blue-600">
-          <Image boxSize={"100px"} src={airtel} alt="mtn" />
-        </button>
-        <button className="bg-blue-600">
-          <Image boxSize={"100px"} src={etisalat} alt="mtn" />
-        </button>
-      </Box>
+      <Container>
+        <Box w={"100%"} bg={"tomato"} p={"1"} className="flex justify-between">
+          <button className="bg-blue-600" onClick={setmtn}>
+            <Image boxSize={"100px"} src={mtn} alt="mtn" />
+          </button>
+          <button className="bg-blue-600">
+            <Image boxSize={"100px"} src={glo} alt="mtn" />
+          </button>
+          <button className="bg-blue-600">
+            <Image boxSize={"100px"} src={airtel} alt="mtn" />
+          </button>
+          <button className="bg-blue-600">
+            <Image boxSize={"100px"} src={etisalat} alt="mtn" />
+          </button>
+        </Box>
+
+        <Stack spacing={4} mt={"4"}>
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <PhoneIcon color="gray.300" />
+            </InputLeftElement>
+            <Input
+              defaultValue={phoneNumber}
+              type="tel"
+              placeholder="Phone number"
+            />
+          </InputGroup>
+
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              color="gray.300"
+              fontSize="1.2em"
+            >
+              ₦
+            </InputLeftElement>
+            <Input onChange={handleAmount} placeholder="Enter amount" />
+            <InputRightElement>
+              <CheckIcon color="green.500" />
+            </InputRightElement>
+          </InputGroup>
+        </Stack>
+
+        <Button colorScheme="teal" size="md" onClick={pay} mt={"2"}>
+          Pay
+          <ArrowForwardIcon ml={"2"} />
+        </Button>
+      </Container>
     </>
   );
 };
