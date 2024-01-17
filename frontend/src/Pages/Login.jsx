@@ -18,7 +18,7 @@ function Login() {
       };
 
       console.log(data);
-      const uri = "http://localhost:10000/users/login";
+      const uri = "https://airtime-purchaser.onrender.com/users/login";
       axios
         .post(uri, data)
         .then((response) => {
