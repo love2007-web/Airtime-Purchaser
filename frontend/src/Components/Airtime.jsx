@@ -12,6 +12,25 @@ const Airtime = () => {
     // setserviceID("mtn");
     serviceID = "mtn";
     console.log(serviceID);
+    setshowinp(true)
+  }
+  function setglo() {
+    // setserviceID("mtn");
+    serviceID = "glo";
+    console.log(serviceID);
+    setshowinp(true)
+  }
+  function setairtel() {
+    // setserviceID("mtn");
+    serviceID = "airtel";
+    console.log(serviceID);
+    setshowinp(true)
+  }
+  function setetisalat() {
+    // setserviceID("mtn");
+    serviceID = "etisalat";
+    console.log(serviceID);
+    setshowinp(true)
   }
 
   function generateRequestId() {
@@ -71,48 +90,49 @@ const Airtime = () => {
           <button className="bg-blue-600" onClick={setmtn}>
             <Image boxSize={"100px"} src={mtn} alt="mtn" />
           </button>
-          <button className="bg-blue-600">
-            <Image boxSize={"100px"} src={glo} alt="mtn" />
+          <button className="bg-blue-600" onClick={setglo}>
+            <Image boxSize={"100px"} src={glo} alt="glo" />
           </button>
-          <button className="bg-blue-600">
-            <Image boxSize={"100px"} src={airtel} alt="mtn" />
+          <button className="bg-blue-600" onClick={setairtel}>
+            <Image boxSize={"100px"} src={airtel} alt="airtel" />
           </button>
-          <button className="bg-blue-600">
-            <Image boxSize={"100px"} src={etisalat} alt="mtn" />
+          <button className="bg-blue-600" onClick={setetisalat}>
+            <Image boxSize={"100px"} src={etisalat} alt="etisalat" />
           </button>
         </Box>
 
-        <Stack spacing={4} mt={"4"}>
-          <InputGroup>
-            <InputLeftElement pointerEvents="none">
-              <PhoneIcon color="gray.300" />
-            </InputLeftElement>
-            <Input
-              defaultValue={phoneNumber}
-              type="tel"
-              placeholder="Phone number"
-            />
-          </InputGroup>
+        {showinp && (
+          <Stack spacing={4} mt={"4"}>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <PhoneIcon color="gray.300" />
+              </InputLeftElement>
+              <Input
+                defaultValue={phoneNumber}
+                type="tel"
+                placeholder="Phone number"
+              />
+            </InputGroup>
 
-          <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              color="gray.300"
-              fontSize="1.2em"
-            >
-              ₦
-            </InputLeftElement>
-            <Input onChange={handleAmount} placeholder="Enter amount" />
-            <InputRightElement>
-              <CheckIcon color="green.500" />
-            </InputRightElement>
-          </InputGroup>
-        </Stack>
-
-        <Button colorScheme="teal" size="md" onClick={pay} mt={"2"}>
-          Pay
-          <ArrowForwardIcon ml={"2"} />
-        </Button>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents="none"
+                color="gray.300"
+                fontSize="1.2em"
+              >
+                ₦
+              </InputLeftElement>
+              <Input onChange={handleAmount} placeholder="Enter amount" />
+              <InputRightElement>
+                <CheckIcon color="green.500" />
+              </InputRightElement>
+            </InputGroup>
+            <Button colorScheme="teal" size="md" onClick={pay} mt={"2"}>
+              Pay
+              <ArrowForwardIcon ml={"2"} />
+            </Button>
+          </Stack>
+        )}
       </Container>
     </>
   );

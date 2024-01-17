@@ -18,7 +18,7 @@ function Login() {
       };
 
       console.log(data);
-      const uri = "http://localhost:5000/users/login";
+      const uri = "http://localhost:10000/users/login";
       axios
         .post(uri, data)
         .then((response) => {

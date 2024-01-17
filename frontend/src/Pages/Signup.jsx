@@ -18,7 +18,7 @@ const Signup = () => {
     };
 
     console.log(data);
-    const uri = "http://localhost:5000/users/register";
+    const uri = "http://localhost:10000/users/register";
     axios
       .post(uri, data)
       .then((response) => {
