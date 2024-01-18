@@ -1,17 +1,22 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon, PhoneIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
   Container,
   Image,
+  Input,
   InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const  Data = () => {
+const Data = () => {
   const [serviceID, setServiceID] = useState("");
   const [showInp, setShowInp] = useState(false);
   const [variations, setVariations] = useState([]);
@@ -19,7 +24,9 @@ const  Data = () => {
   const [selectedButton, setSelectedButton] = useState(null);
   const [selectedVariationCode, setSelectedVariationCode] = useState(null);
   const [selectedVariationAmount, setSelectedVariationAmount] = useState(null);
-  const [billersCode, setbillersCode] = useState("")
+  const [billersCode, setbillersCode] = useState("");
+  const [inpPhone, setinpPhone] = useState(null);
+  let phoneNumber = localStorage.getItem("phoneNumber");
   const public_key = "PK_475a00edabb7fa3f255b586cafff2f29c5302f77f08";
   const secret_key = "SK_936bfe44a22cf0dd18209c7592511244dc72f6bb84a";
   const api_key = "a188d4ad0d989412c1560a88807d5323";
@@ -80,8 +87,10 @@ const  Data = () => {
   };
 
   const logVariationName = (i) => {
+    setShowInp(true);
     console.log(variations[i].variation_code);
     console.log(variations[i].variation_amount);
+    setbillersCode(localStorage.getItem("phoneNumber"));
     setSelectedVariationCode(variations[i].variation_code);
     setSelectedVariationAmount(variations[i].variation_amount);
     setSelectedButton(i);
@@ -109,8 +118,28 @@ const  Data = () => {
   }
 
   const pay = () => {
-    setbillersCode(localStorage.getItem("phoneNumber"));
-    
+    setIsLoading(true);
+    const requestId = generateRequestId();
+    const data = {
+      billersCode: billersCode,
+      serviceID: serviceID,
+      variation_code: selectedVariationCode,
+      amount: selectedVariationAmount,
+      request_id: requestId,
+      phone: inpPhone || phoneNumber,
+    };
+    console.log(data);
+
+    axios
+      .post("https://api-service.vtpass.com/api/pay", data, config)
+      .then((res) => {
+        console.log(res.data);
+        toast.success(res.data.response_description);
+      }).catch((error)=>{
+        console.log(error.response.data);
+      }).finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const mtn =
@@ -192,10 +221,25 @@ const  Data = () => {
           )}
         </Box>
 
-        <Button colorScheme="teal" size="md" onClick={pay} mt={"2"}>
-          Pay
-          <ArrowForwardIcon ml={"2"} />
-        </Button>
+        {showInp && (
+          <Stack spacing={4} mt={"4"}>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <PhoneIcon color="gray.300" />
+              </InputLeftElement>
+              <Input
+                defaultValue={phoneNumber}
+                type="tel"
+                placeholder="Phone number"
+                onChange={(e) => setinpPhone(e.target.value)}
+              />
+            </InputGroup>
+            <Button colorScheme="teal" size="md" onClick={pay} mt={"2"}>
+              Pay
+              <ArrowForwardIcon ml={"2"} />
+            </Button>
+          </Stack>
+        )}
       </Container>
     </>
   );
