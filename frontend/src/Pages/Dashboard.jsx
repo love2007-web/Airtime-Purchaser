@@ -14,7 +14,7 @@ import Data from '../Components/Data';
 
 const Dashboard = () => {
   return (
-    <Container maxW="3xl" centerContent>
+    <Container maxW="100%" centerContent>
       <Box
         w={"100%"}
         bg={"white"}

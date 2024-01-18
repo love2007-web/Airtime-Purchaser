@@ -183,21 +183,56 @@ const Data = () => {
         Choose your Network
       </Text>
       <Container>
-        <Box w={"100%"} bg={"tomato"} p={"1"} className="flex justify-between">
-          <button className="bg-blue-600" onClick={setmtn}>
-            <Image boxSize={"100px"} src={mtn} alt="mtn" />
+        <Box w={"100%"} p={"1"} className="flex justify-between">
+          <button onClick={setmtn}>
+            <Image
+              boxSize={{ base: "50px", md: "100px" }}
+              src={mtn}
+              alt="mtn"
+            />
           </button>
-          <button className="bg-blue-600" onClick={setglo}>
-            <Image boxSize={"100px"} src={glo} alt="glo" />
+          <button onClick={setglo}>
+            <Image
+              boxSize={{ base: "50px", md: "100px" }}
+              src={glo}
+              alt="glo"
+            />
           </button>
-          <button className="bg-blue-600" onClick={setairtel}>
-            <Image boxSize={"100px"} src={airtel} alt="airtel" />
+          <button onClick={setairtel}>
+            <Image
+              boxSize={{ base: "50px", md: "100px" }}
+              src={airtel}
+              alt="airtel"
+            />
           </button>
-          <button className="bg-blue-600" onClick={setetisalat}>
-            <Image boxSize={"100px"} src={etisalat} alt="etisalat" />
+          <button onClick={setetisalat}>
+            <Image
+              boxSize={{ base: "50px", md: "100px" }}
+              src={etisalat}
+              alt="etisalat"
+            />
           </button>
         </Box>
 
+              {showInp && (
+                <Stack spacing={4} mt={"4"}>
+                  <InputGroup>
+                    <InputLeftElement pointerEvents="none">
+                      <PhoneIcon color="gray.300" />
+                    </InputLeftElement>
+                    <Input
+                      defaultValue={phoneNumber}
+                      type="tel"
+                      placeholder="Phone number"
+                      onChange={(e) => setinpPhone(e.target.value)}
+                    />
+                  </InputGroup>
+                  <Button colorScheme="teal" size="md" onClick={pay} mt={"2"}>
+                    Pay
+                    <ArrowForwardIcon ml={"2"} />
+                  </Button>
+                </Stack>
+              )}
         <Box>
           {variations.length > 0 && (
             <div>
@@ -210,6 +245,9 @@ const Data = () => {
                       style={{
                         backgroundColor:
                           selectedButton === i ? "teal" : "inherit",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
                       }}
                     >
                       {variation.name}
@@ -221,25 +259,6 @@ const Data = () => {
           )}
         </Box>
 
-        {showInp && (
-          <Stack spacing={4} mt={"4"}>
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <PhoneIcon color="gray.300" />
-              </InputLeftElement>
-              <Input
-                defaultValue={phoneNumber}
-                type="tel"
-                placeholder="Phone number"
-                onChange={(e) => setinpPhone(e.target.value)}
-              />
-            </InputGroup>
-            <Button colorScheme="teal" size="md" onClick={pay} mt={"2"}>
-              Pay
-              <ArrowForwardIcon ml={"2"} />
-            </Button>
-          </Stack>
-        )}
       </Container>
     </>
   );
